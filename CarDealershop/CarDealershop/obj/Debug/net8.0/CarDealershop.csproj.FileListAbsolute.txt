@@ -1,0 +1,14 @@
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\bin\Debug\net8.0\CarDealershop.exe
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\bin\Debug\net8.0\CarDealershop.deps.json
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\bin\Debug\net8.0\CarDealershop.runtimeconfig.json
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\bin\Debug\net8.0\CarDealershop.dll
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\bin\Debug\net8.0\CarDealershop.pdb
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.AssemblyInfoInputs.cache
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.AssemblyInfo.cs
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.csproj.CoreCompileInputs.cache
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.dll
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\refint\CarDealershop.dll
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.pdb
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\CarDealershop.genruntimeconfig.cache
+C:\Users\josip\source\repos\CarDealershop\CarDealershop\obj\Debug\net8.0\ref\CarDealershop.dll
