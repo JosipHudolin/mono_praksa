@@ -1,0 +1,222 @@
+CREATE TABLE "Sex" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"Name" varchar(20) NOT NULL
+);
+
+CREATE TABLE "Department" (
+	"Id" uuid NOT NULL,
+	"Name" varchar(50) NOT NULL,
+	PRIMARY KEY ("Id")
+);
+
+CREATE TABLE "Doctor" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"FirstName" varchar(20) NOT NULL,
+	"LastName" varchar(30) NOT NULL,
+	"Birthday" date,
+	"SexId" uuid,
+	"Specialization" varchar(30),
+	"DepartmentId" uuid,
+	CONSTRAINT "FK_Doctor_Department_DepartmentId" FOREIGN KEY ("DepartmentId") REFERENCES "Department"("Id"),
+	CONSTRAINT "FK_Doctor_Sex_SexId" FOREIGN KEY ("SexId") REFERENCES "Sex"("Id")
+);
+
+CREATE TABLE "Patient" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"FirstName" varchar(20) NOT NULL,
+	"LastName" varchar(30) NOT NULL,
+	"Birthday" date,
+	"SexId" uuid,
+	"DoctorId" uuid,
+	"DepartmentId" uuid,
+	CONSTRAINT "FK_Patient_Department_DepartmentId" FOREIGN KEY ("DepartmentId") REFERENCES "Department"("Id"),
+	CONSTRAINT "FK_Patient_Doctor_DoctorId" FOREIGN KEY ("DoctorId") REFERENCES "Doctor"("Id"),
+	CONSTRAINT "FK_Patient_Sex_SexId" FOREIGN KEY ("SexId") REFERENCES "Sex"("Id")
+);
+
+CREATE TABLE "Nurse" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"FirstName" varchar(20) NOT NULL,
+	"LastName" varchar(30) NOT NULL,
+	"Birthday" date,
+	"SexId" uuid,
+	"DepartmentId" uuid,
+	CONSTRAINT "FK_Nurse_Department_DepartmentId" FOREIGN KEY ("DepartmentId") REFERENCES "Department"("Id"),
+	CONSTRAINT "FK_Nurse_Sex_SexId" FOREIGN KEY ("SexId") REFERENCES "Sex"("Id")
+);
+
+CREATE TABLE "Diagnose" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"Name" varchar(20) NOT NULL,
+	"Description" varchar(200)
+);
+
+CREATE TABLE "Symptome" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"Name" varchar(20) NOT NULL,
+	"Description" varchar(200)
+);
+
+CREATE TABLE "Machine" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"Name" varchar(20) NOT NULL,
+	"Description" varchar(200)
+);
+
+CREATE TABLE "NursePatient" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"NurseId" uuid NOT NULL,
+	"PatientId" uuid NOT NULL,
+	CONSTRAINT "FK_NursePatient_Patient_PatientId" FOREIGN KEY ("PatientId") REFERENCES "Patient"("Id"),
+	CONSTRAINT "FK_NursePatient_Nurse_NurseId" FOREIGN KEY ("NurseId") REFERENCES "Nurse"("Id")
+);
+
+CREATE TABLE "DiagnosePatient" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"DiagnoseId" uuid NOT NULL,
+	"PatientId" uuid NOT NULL,
+	CONSTRAINT "FK_DiagnosePatient_Patient_PatientId" FOREIGN KEY ("PatientId") REFERENCES "Patient"("Id"),
+	CONSTRAINT "FK_DiagnosePatient_Diagnose_DiagnoseId" FOREIGN KEY ("DiagnoseId") REFERENCES "Diagnose"("Id")
+);
+
+CREATE TABLE "PatientSymptome" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"SymptomeId" uuid NOT NULL,
+	"PatientId" uuid NOT NULL,
+	CONSTRAINT "FK_PatientSymptome_Patient_PatientId" FOREIGN KEY ("PatientId") REFERENCES "Patient"("Id"),
+	CONSTRAINT "FK_PatientSymptome_Symptome_SymptomeId" FOREIGN KEY ("SymptomeId") REFERENCES "Symptome"("Id")
+);
+
+CREATE TABLE "DiagnoseSymptome" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"DiagnoseId" uuid NOT NULL,
+	"SymptomeId" uuid NOT NULL,
+	CONSTRAINT "FK_DiagnoseSymptome_Diagnose_DiagnoseId" FOREIGN KEY ("DiagnoseId") REFERENCES "Diagnose"("Id"),
+	CONSTRAINT "FK_DiagnoseSymptome_Symptome_SymptomeId" FOREIGN KEY ("SymptomeId") REFERENCES "Symptome"("Id")
+);
+
+CREATE TABLE "MachineDepartment" (
+	"Id" uuid PRIMARY KEY NOT NULL,
+	"MachineId" uuid NOT NULL,
+	"DepartmentId" uuid NOT NULL,
+	CONSTRAINT "FK_MachineDepartment_Machine_MachineId" FOREIGN KEY ("MachineId") REFERENCES "Machine"("Id"),
+	CONSTRAINT "FK_MachineDepartment_Department_DepartmentId" FOREIGN KEY ("DepartmentId") REFERENCES "Department"("Id")
+);
+
+INSERT INTO "Department" ("Id", "Name")
+VALUES ('238f51aa-e69b-4449-afaf-37c7f91681b9', 'Pediatry');
+
+INSERT INTO "Department" ("Id", "Name")
+VALUES ('fe6e605e-0700-451b-9d25-8c56eda8ce6a', 'Child Surgery');
+
+INSERT INTO "Sex" ("Id", "Name")
+VALUES ('af7a246e-a176-4c77-b6c5-c906e70ef0a6', 'Male');
+
+INSERT INTO "Sex" ("Id", "Name")
+VALUES ('f9ed1d9f-285e-43d9-b917-3ccf74c78cc1', 'Female');
+
+INSERT INTO "Doctor" ("Id", "FirstName", "LastName", "Birthday", "SexId", "Specialization", "DepartmentId")
+VALUES ('8d92500e-f306-44b9-85f8-e70881a2f4b4', 'John', 'Doe', '1980-05-12', 'af7a246e-a176-4c77-b6c5-c906e70ef0a6', 'Cardiology', '238f51aa-e69b-4449-afaf-37c7f91681b9');
+
+INSERT INTO "Doctor" ("Id", "FirstName", "LastName", "Birthday", "SexId", "Specialization", "DepartmentId")
+VALUES ('59326a26-24fe-4226-85cf-c29c5a67435d', 'Alice', 'May', '1980-05-13', 'f9ed1d9f-285e-43d9-b917-3ccf74c78cc1', 'Surgent', 'fe6e605e-0700-451b-9d25-8c56eda8ce6a');
+
+SELECT * FROM "Doctor"
+WHERE "Id" = '59326a26-24fe-4226-85cf-c29c5a67435d';
+
+INSERT INTO "Patient" ("Id", "FirstName", "LastName", "Birthday", "SexId", "DoctorId", "DepartmentId")
+VALUES ('68a12f20-c5cc-459d-9d5e-c2bfa21fe358', 'Jane', 'Smith', '1990-08-22', 'f9ed1d9f-285e-43d9-b917-3ccf74c78cc1', '59326a26-24fe-4226-85cf-c29c5a67435d', 'fe6e605e-0700-451b-9d25-8c56eda8ce6a');
+
+INSERT INTO "Patient" ("Id", "FirstName", "LastName", "Birthday", "SexId", "DoctorId", "DepartmentId")
+VALUES ('b3cf7a63-0dd8-4be8-9880-1b2cfb4c17a0', 'David', 'Miles', '1990-08-23', 'f9ed1d9f-285e-43d9-b917-3ccf74c78cc1', '59326a26-24fe-4226-85cf-c29c5a67435d', 'fe6e605e-0700-451b-9d25-8c56eda8ce6a');
+
+SELECT * FROM "Patient"
+WHERE "DoctorId" = '59326a26-24fe-4226-85cf-c29c5a67435d';
+
+INSERT INTO "Symptome" ("Id", "Name", "Description")
+VALUES ('147d247b-2a85-4b51-8323-ee5ac01c553b', 'Fever', 'High body temperature condition.');
+
+INSERT INTO "Diagnose" ("Id", "Name", "Description")
+VALUES ('6769c8cd-6594-4811-a906-a973a7646489', 'Hypertension', 'High blood pressure condition.');
+
+INSERT INTO "Diagnose" ("Id", "Name", "Description")
+VALUES ('5cabd573-94bd-496e-85a7-c68a253e88c7', 'HyperGlicemy', 'High blood sugar condition.');
+
+INSERT INTO "Nurse" ("Id", "FirstName", "LastName", "Birthday", "SexId", "DepartmentId")
+VALUES ('d8a81097-ab3d-42ad-9435-8079dfabe9e2', 'Rita', 'Muller', '1980-05-17', 'f9ed1d9f-285e-43d9-b917-3ccf74c78cc1', 'fe6e605e-0700-451b-9d25-8c56eda8ce6a');
+
+INSERT INTO "NursePatient" ("Id", "NurseId", "PatientId")
+VALUES ('6b24c96d-1599-42f9-9c20-b988bffeda82', 'd8a81097-ab3d-42ad-9435-8079dfabe9e2', 'b3cf7a63-0dd8-4be8-9880-1b2cfb4c17a0');
+
+INSERT INTO "DiagnoseSymptome" ("Id", "DiagnoseId", "SymptomeId")
+VALUES ('9e705664-9a09-4958-af59-a9a42ad2910d', '5cabd573-94bd-496e-85a7-c68a253e88c7', '147d247b-2a85-4b51-8323-ee5ac01c553b');
+
+SELECT p.*
+FROM "Patient" p
+JOIN "NursePatient" np ON p."Id" = np."PatientId"
+WHERE np."NurseId" = 'd8a81097-ab3d-42ad-9435-8079dfabe9e2';
+
+SELECT 
+    p."FirstName", p."LastName", d."Name" AS "DepartmentName"
+FROM 
+    "Patient" p
+INNER JOIN 
+    "Department" d ON p."DepartmentId" = d."Id";
+
+SELECT 
+    n."FirstName", n."LastName", p."FirstName" AS "PatientFirstName"
+FROM 
+    "Nurse" n
+LEFT JOIN 
+    "NursePatient" np ON n."Id" = np."NurseId"
+LEFT JOIN 
+    "Patient" p ON np."PatientId" = p."Id";
+
+SELECT 
+    p."FirstName", p."LastName", d."Name" AS "DepartmentName"
+FROM 
+    "Patient" p
+RIGHT JOIN 
+    "Department" d ON p."DepartmentId" = d."Id";
+
+UPDATE 
+    "Patient"
+SET 
+    "Birthday" = "Birthday" - INTERVAL '1 year'
+WHERE 
+    "Birthday" < '1990-01-01';
+
+UPDATE 
+    "Patient"
+SET 
+    "DoctorId" = '8d92500e-f306-44b9-85f8-e70881a2f4b4'
+WHERE 
+    "DepartmentId" = 'fe6e605e-0700-451b-9d25-8c56eda8ce6a';
+
+SELECT 
+    p."FirstName", p."LastName", d."Name" AS "DepartmentName"
+FROM 
+    "Patient" p
+FULL JOIN 
+    "Department" d ON p."DepartmentId" = d."Id";
+
+SELECT
+	d."FirstName", d."LastName" AS "Surname", dpt."Name" AS "DepartmentName"
+FROM
+	"Doctor" d
+LEFT JOIN "Department" dpt ON d."DepartmentId" = dpt."Id"
+
+INSERT INTO "Nurse" ("Id", "FirstName", "LastName", "Birthday", "SexId", "DepartmentId")
+VALUES ('791eb90a-fbd5-4bdc-8f27-d7dcc6ba50ae', 'Valerie', 'Stridge', '1987-05-17', 'f9ed1d9f-285e-43d9-b917-3ccf74c78cc1', 'fe6e605e-0700-451b-9d25-8c56eda8ce6a');
+
+DELETE FROM
+	"Nurse"
+WHERE 
+	"FirstName" = 'Valerie'
+
+DELETE FROM 
+    "DiagnoseSymptome"
+WHERE 
+    "DiagnoseId" = '5cabd573-94bd-496e-85a7-c68a253e88c7';
+
+SELECT * FROM "DiagnoseSymptome"
